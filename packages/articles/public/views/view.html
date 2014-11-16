@@ -1,3 +1,9 @@
+<use-mean-socket after-join="socketAfterJoin(channel, messages)"
+            mean-socket-after-get="socketAfterGet(message)"
+            mean-socket-after-get-all-channels="socketAfterGetChannels(channels)"
+            join-to-channel="'mean'"/>
+
+
 <section data-ng-controller="ArticlesController" data-ng-init="findOne()">
   <span>{{article.created | date:'medium'}}</span> /
   <span>{{article.user.name}}</span>

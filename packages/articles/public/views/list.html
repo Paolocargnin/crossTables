@@ -1,7 +1,12 @@
 <section data-ng-controller="ArticlesController" data-ng-init="find()">
+  <use-mean-socket after-join="socketAfterJoin(channel, messages)"
+            mean-socket-after-get="find()"
+            join-to-channel="'mean'"/>
+
+
   <ul class="articles unstyled">
     <li data-ng-repeat="article in articles">
-      <span>{{article.created | date:'medium'}}</span> /
+      <span>{{article.created | date:'medium'}}</span>
       <span>{{article.user.name}}</span>
       <h2>
         <a data-ng-href="#!/articles/{{article._id}}">{{article.title}}</a>

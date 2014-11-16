@@ -66,6 +66,7 @@
     "view-helpers": "^0.1.4"
   },
   "devDependencies": {
+    "grunt-contrib-sass": "^0.8.1",
     "grunt-karma": "^0.8.2",
     "grunt-mocha-test": "^0.10.2",
     "karma": "^0.12.10",

@@ -1,13 +1,14 @@
 'use strict';
 
-angular.module('mean.articles').controller('ArticlesController', ['$scope', '$stateParams', '$location', 'Global', 'Articles',
-  function($scope, $stateParams, $location, Global, Articles) {
+angular.module('mean.articles').controller('ArticlesController', ['$scope', '$stateParams', '$location', 'Global', 'MeanSocket', 'Articles',
+  function($scope, $stateParams, $location, Global, MeanSocket, Articles) {
     $scope.global = Global;
 
     $scope.hasAuthorization = function(article) {
       if (!article || !article.user) return false;
       return $scope.global.isAdmin || article.user._id === $scope.global.user._id;
     };
+
 
     $scope.create = function(isValid) {
       if (isValid) {
@@ -16,14 +17,23 @@ angular.module('mean.articles').controller('ArticlesController', ['$scope', '$st
           content: this.content
         });
         article.$save(function(response) {
+          //send the socket
+          MeanSocket.emit('message:send', {
+            message: response,
+            user: $scope.global.user,
+            channel: 'mean'
+          });
           $location.path('articles/' + response._id);
         });
-
         this.title = '';
         this.content = '';
       } else {
         $scope.submitted = true;
       }
+    };
+
+    $scope.socketAfterJoin = function(){
+      //doing nothing
     };
 
     $scope.remove = function(article) {
@@ -72,5 +82,7 @@ angular.module('mean.articles').controller('ArticlesController', ['$scope', '$st
         $scope.article = article;
       });
     };
+
+   
   }
 ]);
